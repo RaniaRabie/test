@@ -14,7 +14,6 @@ root.render(
         <App />
       </GoogleOAuthProvider>
     </BrowserRouter>
-    ,
   </React.StrictMode>
 );
 

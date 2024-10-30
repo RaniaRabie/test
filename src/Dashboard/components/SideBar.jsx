@@ -39,7 +39,7 @@ import "./sideBar.css";
 
 const routes = [
   {
-    path: "/dashboardhome",
+    path: "/dashboard",
     name: "Home",
     icon: <FaHome />,
   },
@@ -50,17 +50,17 @@ const routes = [
     icon: <BiAnalyse />,
     subRoutes: [
       {
-        path: "/barchart",
+        path: "/dashboard/barchart",
         name: "Bar Chart ",
         icon: <BarChartIcon />,
       },
       {
-        path: "/linechart",
+        path: "/dashboard/linechart",
         name: "Line Chart",
         icon: <ShowChartIcon />,
       },
       {
-        path: "/piechart",
+        path: "/dashboard/piechart",
         name: "Pie Chart",
         icon: <PieChartIcon />,
       },
@@ -73,12 +73,12 @@ const routes = [
     icon: <GroupIcon />,
     subRoutes: [
       {
-        path: "/allusers",
+        path: "/dashboard/allusers",
         name: "All Users ",
         icon: <PersonSearchIcon />,
       },
       {
-        path: "/addnewuser",
+        path: "/dashboard/addnewuser",
         name: "Add New User",
         icon: <PersonAddIcon />,
       },
@@ -88,12 +88,12 @@ const routes = [
   
 
   {
-    path: "/roadmap",
+    path: "/dashboard/roadmap",
     name: "Roadmap",
     icon: <AddRoadIcon />,
     subRoutes: [
       {
-        path: "/allroadmaps",
+        path: "/dashboard/allroadmaps",
         name: "All Roadmaps",
         icon: <EditRoadIcon />,
       },
@@ -101,14 +101,14 @@ const routes = [
   },
 
   {
-    path: "/faq",
+    path: "/dashboard/faq",
     name: "FAQ",
     icon: <LiveHelpIcon />,
     exact: true,
   },
 
   {
-    path: "/setting",
+    path: "/dashboard/setting",
     name: "Settings",
     icon: <BiCog />,
     exact: true,

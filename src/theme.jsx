@@ -1,4 +1,3 @@
-
 /*
 - File Name:themes.jsx
 - Author: rania rabie
@@ -8,7 +7,8 @@
 - Contributors: rania rabie 
 - Last Modified Date: 17/10/2024
 - Description : Dark mode
-*/export const getDesignTokens = (mode) => ({
+*/
+export const getDesignTokens = (mode) => ({
   palette: {
     mode,
     ...(mode === "light"

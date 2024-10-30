@@ -1,49 +1,60 @@
 import "./App.css";
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Outlet,
-} from "react-router-dom";
-import Home from "./Home";
-import BlogLayout from "./BlogLayout";
-import About from "./About";
-import DashboardOutlet from "./Dashboard/DashboardOutlet";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import DevRootsOutlet from "./DevRoots/DevRootsOutlet";
 import RoadmapList from "./DevRoots/Home/RoadmapList";
 import Login from "./DevRoots/pages/login/Login";
 import SignUp from "./DevRoots/pages/login/SignUp";
 import ForgotPassword from "./DevRoots/pages/login/Forget Password/ForgotPassword";
 import SetNewPassword from "./DevRoots/pages/login/Forget Password/SetNewPassword";
 import Roadmap from "./DevRoots/roadmap/Roadmap";
-import TopBar from "./DevRoots/components/TopBar";
-import { Mode } from "@mui/icons-material";
+
+import DashboardOutlet from "./Dashboard/DashboardOutlet";
+import Dashboard from "./Dashboard/pages/dashboard/Dashboard";
+import BarChart from "./Dashboard/pages/Analystics/BarChart";
+import PieChart from "./Dashboard/pages/Analystics/PieChart";
+import LineChart from "./Dashboard/pages/Analystics/LineChart";
+import AllUsers from "./Dashboard/pages/form/users/AllUsers";
+import AddNewUser from "Dashboard/pages/form/users/AddNewUser";
+import Profile from "./Dashboard/pages/form/users/Profile";
+import FAQ from "./Dashboard/pages/faq/FAQ";
+import Setting from "./Dashboard/pages/setting/Setting";
+import AllRoadmaps from "./Dashboard/pages/roadmap/create/AllRoadmaps";
+import RoadmapDetails from "./Dashboard/pages/roadmap/create/Roadmapdetails";
+import CreateRoadmap from "./Dashboard/pages/roadmap/create/CreateRoadmap";
 
 function App() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
   return (
-    <div>
-      <TopBar open={open}
-        handleDrawerOpen={handleDrawerOpen} 
-        setMode={Mode}/>
-      <div>topbar</div>
-        <Routes>
-          <Route path="/" element={<RoadmapList />} />
-          <Route path="blog/*" element={<BlogLayout />} />
-          <Route path="about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/ForgotPassword" element={<ForgotPassword />} />
-          <Route path="/SetNewPassword" element={<SetNewPassword />} />
-          <Route path="roadmap/:id" element={<Roadmap />} />
-          <Route path="dashboard/*" element={<DashboardOutlet />} />
-        </Routes>
-      <Outlet />
-    </div>
+    <Routes>
+      {/* Main Layout */}
+      <Route path="/" element={<DevRootsOutlet />}>
+        <Route index element={<RoadmapList />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="set-new-password" element={<SetNewPassword />} />
+        <Route path="roadmap/:id" element={<Roadmap />} />
+      </Route>
+
+      {/* Dashboard Layout */}
+      <Route path="/dashboard/*" element={<DashboardOutlet />}>
+        <Route index element={<Dashboard newUsersCount={undefined} />} />
+        <Route path="piechart" element={<PieChart />} />
+        <Route path="linechart" element={<LineChart />} />
+        <Route path="barchart" element={<BarChart />} />
+        <Route path="allusers" element={<AllUsers />} />
+        <Route path="addnewuser" element={<AddNewUser />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="faq" element={<FAQ />} />
+        <Route path="setting" element={<Setting />} />
+        <Route path="allroadmaps" element={<AllRoadmaps />} />
+        <Route path="create" element={<CreateRoadmap />} />
+        <Route path="create/:id" element={<CreateRoadmap />} />
+        <Route path="details" element={<RoadmapDetails />} />
+        <Route path="details/:id" element={<RoadmapDetails />} />
+      </Route>
+    </Routes>
   );
 }
 
