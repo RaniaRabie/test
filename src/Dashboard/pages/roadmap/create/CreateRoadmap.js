@@ -414,14 +414,14 @@ const DnDFlow = () => {
       console.log("Nodes data successfully stored:", response.data);
 
       // Navigate to the new page after data is successfully posted
-      navigate("/allroadmaps");
+      navigate("/dashboard/allroadmaps");
     } catch (error) {
       console.error("Error saving nodes data:", error);
     }
   };
 
-  const isCreatePath = location.pathname === "/create";
-  const isUpdatePath = location.pathname.startsWith("/create/");
+  const isCreatePath = location.pathname === "/dashboard/create";
+  const isUpdatePath = location.pathname.startsWith("/dashboard/create/");
 
   //Fetch roadmap and nodes by ID
   useEffect(() => {
@@ -487,7 +487,7 @@ const DnDFlow = () => {
       })
       .then(() => {
         console.log("Roadmap updated successfully.");
-        navigate("/allroadmaps"); // Redirect after update
+        navigate("/dashboard/allroadmaps"); // Redirect after update
       })
       .catch((error) => {
         console.error("Error updating Roadmap:", error);

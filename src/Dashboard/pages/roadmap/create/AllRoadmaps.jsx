@@ -229,11 +229,11 @@ const AllRoadmaps = () => {
   }, []);
 
   const handleNodeClick = (id, roadmapData) => {
-    navigate(`/details/${id}`, { state: roadmapData });
+    navigate(`/dashboard/details/${id}`, { state: roadmapData });
   };
 
   const handleCreateNewRoadmap = () => {
-    navigate("/details");
+    navigate("/dashboard/details");
   };
 
   const handleOpenDialog = (id) => {

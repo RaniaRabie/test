@@ -382,7 +382,7 @@ export default function RoadmapDetails() {
     const hasErrors = validateFields();
 
     if (!hasErrors.category && !hasErrors.name && !hasErrors.description && !hasErrors.image) {
-      navigate("/create");
+      navigate("/dashboard/create");
     }
   };
 
@@ -412,7 +412,7 @@ export default function RoadmapDetails() {
 
     if (!hasErrors.category && !hasErrors.name && !hasErrors.description && !hasErrors.image) {
       await updateRoadmap();
-      navigate(`/create/${id}`);
+      navigate(`/dashboard/create/${id}`);
     }
   };
 
