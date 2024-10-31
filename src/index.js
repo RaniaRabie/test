@@ -5,16 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { RoadmapProvider } from "./Dashboard/pages/roadmap/create/RoadmapContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <GoogleOAuthProvider clientId="863819354066-fafo7lel76kd78g15q5bf391t0mrvmuj.apps.googleusercontent.com">
-        <App />
-      </GoogleOAuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+  <GoogleOAuthProvider clientId="863819354066-fafo7lel76kd78g15q5bf391t0mrvmuj.apps.googleusercontent.com">
+    <RoadmapProvider>
+      <App />
+    </RoadmapProvider>
+  </GoogleOAuthProvider>
+</BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

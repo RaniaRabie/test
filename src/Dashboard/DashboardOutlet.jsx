@@ -1,17 +1,13 @@
-
-import SideBar from "./components/SideBar";
 import { Outlet } from "react-router-dom";
 import TopBar from "./components/TopBar";
+import { Box } from "@mui/material";
 export default function DashboardOutlet() {
-
-  
-
   return (
     <div>
-        <TopBar open={undefined} toggleMode={undefined} mode={undefined}/>
-      <Outlet/>
+      <TopBar open={undefined} toggleMode={undefined} mode={undefined} />
+      <Box sx={{mt:"45px"}}>
+        <Outlet />
+      </Box >
     </div>
-
-
-  )
+  );
 }

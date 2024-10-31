@@ -27,17 +27,17 @@ import CreateRoadmap from "./Dashboard/pages/roadmap/create/CreateRoadmap";
 function App() {
   return (
     <Routes>
-      {/* Main Layout */}
+      {/* devroots paths */}
       <Route path="/" element={<DevRootsOutlet />}>
         <Route index element={<RoadmapList />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="set-new-password" element={<SetNewPassword />} />
+        <Route path="ForgotPassword" element={<ForgotPassword />} />
+        <Route path="SetNewPassword" element={<SetNewPassword />} />
         <Route path="roadmap/:id" element={<Roadmap />} />
       </Route>
 
-      {/* Dashboard Layout */}
+      {/* Dashboard paths */}
       <Route path="/dashboard/*" element={<DashboardOutlet />}>
         <Route index element={<Dashboard newUsersCount={undefined} />} />
         <Route path="piechart" element={<PieChart />} />

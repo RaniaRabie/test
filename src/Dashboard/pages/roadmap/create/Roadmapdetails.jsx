@@ -447,8 +447,8 @@ export default function RoadmapDetails() {
     setEdges,
   ]);
 
-  const isCreatePath = location.pathname === "/details";
-  const isUpdatePath = location.pathname.startsWith("/details/");
+  const isCreatePath = location.pathname === "/dashboard/details";
+  const isUpdatePath = location.pathname.startsWith("/dashboard/details/");
 
   return (
     <Box sx={{ width: "80%", m: "auto", mt: 2 }}>
