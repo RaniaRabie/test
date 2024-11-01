@@ -50,17 +50,17 @@
 .container .btn {
   background-color: #ee6c4d;
   color: #fff;
-  font-size: 12px;
-  padding: 10px 45px;
+  font-size: 15px;
+  padding: 10px 35px;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-weight: 600;
+  /* font-weight: 600; */
   letter-spacing: 0.5px;
-  margin-top: 10px;
-  margin-bottom: 8px;
+  margin: 10px 0px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(34, 31, 31, 0.3);
   transition: 0.5s ease;
+  width: 140px;
 }
 
 .container button.hidden {

@@ -1,52 +1,53 @@
 import { Outlet } from "react-router-dom";
 import TopBar from "./components/TopBar";
-import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import SideBar from "./components/SideBar";
 import { useMemo, useState } from "react";
-import { getDesignTokens } from "theme";
+import { darkTheme, lightTheme } from "theme";
 export default function DashboardOutlet() {
   const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
-  const [mode, setMode] = useState(
-    localStorage.getItem("currentMode")
-      ? localStorage.getItem("currentMode")
-      : "light"
-  );
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  // Set initial mode based on local storage or default to "light"
+  const [mode, setMode] = useState(() => {
+    const savedMode = localStorage.getItem("currentMode");
+    return savedMode ? savedMode : "light";
+  });
+
+  // Save the mode to local storage whenever it changes
+  const handleToggleMode = (newMode) => {
+    setMode(newMode);
+    localStorage.setItem("currentMode", newMode);
+  };
+
+  // Create the theme based on the current mode
+  const theme = useMemo(() => {
+    return mode === "dark" ? darkTheme : lightTheme;
+  }, [mode]);
 
   return (
-    // <div>
-    //   <TopBar
-    //     open={open}
-    //     handleDrawerOpen={handleDrawerOpen}
-    //     setMode={setMode}
-    //   />
-    //   <Box sx={{ mt: "45px" }}>
+    <Box sx={{ display: { xs: "block", lg: "flex" } }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
 
-    //     <Outlet />
-    //   </Box>
-    // </div>
+        <TopBar open={open} mode={setMode} toggleMode={handleToggleMode} />
 
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+        <SideBar open={open} handleDrawerClose={handleDrawerClose} />
 
-      <TopBar
-        open={open}
-        handleDrawerOpen={handleDrawerOpen}
-        setMode={setMode}
-      />
-
-      <Box component="main" sx={{ mt: "45px" }}>
-        <Outlet />
-      </Box>
-    </ThemeProvider>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: { xs: 0, lg: 1 }, mt:{lg: "45px"}, ml:{xs:"45px",lg:"0px" },
+            
+            
+          }}
+        >
+          <Outlet />
+        </Box>
+      </ThemeProvider>
+    </Box>
   );
 }

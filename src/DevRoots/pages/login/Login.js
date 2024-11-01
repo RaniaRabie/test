@@ -95,7 +95,7 @@ const Login = () => {
     setEmail(newEmail);
 
     // Validate email and set error state
-    const emailPattern = /^[a-zA-Z0-9]{3,}(\.[a-zA-Z0-9]+)*@gmail\.com$/; // Simple email regex pattern
+    const emailPattern = /^[a-zA-Z0-9]{6,}(\.[a-zA-Z0-9]+)*@gmail\.com$/; // Simple email regex pattern
     const isValid = emailPattern.test(newEmail); // Check validity of new email
     setEmailError(!isValid);
 
@@ -154,7 +154,6 @@ const Login = () => {
 
   /////////////////////////////////////////////////
   //form handling
-  const [showHelperText, setShowHelperText] = useState(false); // حالة جديدة للتحكم في عرض نص المساعدة
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -165,20 +164,32 @@ const Login = () => {
     } else {
       setIsValidUsername(true);
       setUsernameTooltipOpen(false);
-      // Proceed with form submission (e.g., API call)
     }
-
     const emailPattern = /^[a-zA-Z0-9]{3,}(\.[a-zA-Z0-9]+)*@gmail\.com$/;
     const isValid = emailPattern.test(email);
     setEmailError(!isValid);
     setEmailTooltipOpen(!isValid);
+
+    if (!signUpPassword) {
+      setTooltipOpen(true); // Show password tooltip
+      return; // Stop submission if password is missing
+    }
+    if (!confirmPassword) {
+      setConfirmTooltipOpen(true); // Show password tooltip
+      return; // Stop submission if password is missing
+    }
 
     if (!username || !email || !signUpPassword || !confirmPassword) {
       return;
     }
 
     // Proceed with form submission if all fields are filled
-    if (isValidUsername && !emailError && validationCriteria) {
+    if (
+      isValidUsername &&
+      !emailError &&
+      validationCriteria &&
+      ConfirmValidationCriteria
+    ) {
       // Submit form
 
       onSubmit({ username, password: signUpPassword, email, confirmPassword });
@@ -219,30 +230,16 @@ const Login = () => {
     } catch (error) {
       console.log("Error during API call: ", error);
 
-      let errorMsg;
-      if (error.response && error.response.data) {
-        if (error.response.status === 409) {
-          const serverMessage = error.response.data.message || "";
-          console.log("Server Message: ", serverMessage); // عرض رسالة الخادم للتحقق منها
-
-          // تحقق من نص الرسالة باستخدام جمل شرطية مباشرة
-          if (
-            serverMessage === "User.DublicatedEmail" ||
-            "Another user with the same email is already exists"
-          ) {
-            errorMsg = "Username or Email is already exists";
-          } else {
-            errorMsg = serverMessage || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-          }
-        } else {
-          errorMsg =
-            error.response.data.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-        }
+      if (
+        (error.response && error.response.status === 400) ||
+        (error.response && error.response.status === 409) ||
+        (error.response && error.response.status === 401)
+      ) {
+        const errorMessage = error.response.data.errors[1];
+        setErrorMessage(errorMessage);
       } else {
-        errorMsg = error.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
+        setErrorMessage("An unexpected error occurred.");
       }
-
-      setErrorMessage(errorMsg);
       setOpenSnackbar(true);
     }
 
@@ -312,7 +309,6 @@ const Login = () => {
       password: data.password,
     };
 
-
     console.log("LoginData being sent:", LoginData);
 
     try {
@@ -340,30 +336,17 @@ const Login = () => {
     } catch (error) {
       console.log("Error during API call: ", error);
 
-      let errorMsg;
-      if (error.response && error.response.data) {
-        if (error.response.status === 401) {
-          const serverMessage = error.response.data.message || "";
-          console.log("Server Message: ", serverMessage); // عرض رسالة الخادم للتحقق منها
-
-          // تحقق من نص الرسالة باستخدام جمل شرطية مباشرة
-          if (
-            serverMessage === "'User.InvalidCredentials" ||
-            "Invalid email/password"
-          ) {
-            errorMsg = "Invalid Username or password ";
-          } else {
-            errorMsg = serverMessage || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-          }
-        } else {
-          errorMsg =
-            error.response.data.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-        }
+      if (
+        (error.response && error.response.status === 400) ||
+        (error.response && error.response.status === 409) ||
+        (error.response && error.response.status === 401)
+      ) {
+        const errorMessage = error.response.data.errors[1];
+        setErrorMessage(errorMessage);
       } else {
-        errorMsg = error.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
+        setErrorMessage("An unexpected error occurred.");
       }
 
-      setErrorMessage(errorMsg);
       setOpenSnackbar(true);
     }
   };
@@ -902,7 +885,7 @@ const Login = () => {
                 />
 
                 <Tooltip
-                  title="Please enter a valid email in the format: xxx@gmail.com"
+                  title="Please enter a valid email in the format: xxxxxx@gmail.com"
                   placement="right-end" // Position tooltip to the right
                   open={emailTooltipOpen} // Control tooltip visibility for email
                   arrow
@@ -1168,6 +1151,8 @@ const Login = () => {
           open={openSnackbar}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+
         >
           <Alert
             onClose={handleCloseSnackbar}
@@ -1178,7 +1163,7 @@ const Login = () => {
           </Alert>
         </Snackbar>
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={open}
           autoHideDuration={3000}
           onClose={handleClose}

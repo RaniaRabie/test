@@ -34,7 +34,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import React from "react";
+import axios from "axios";
 
 const AddNewUser = () => {
   // Username Validation
@@ -135,95 +135,88 @@ const AddNewUser = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleClick = async (eo) => {
+    eo.preventDefault();
+
+    // Validate username
     if (!validateUsername(username)) {
       setIsValidUsername(false);
       setUsernameTooltipOpen(true);
+      return;
     } else {
       setIsValidUsername(true);
       setUsernameTooltipOpen(false);
-      // Proceed with form submission (e.g., API call)
     }
-
+  
+    // Validate email
     const emailPattern = /^[a-zA-Z0-9]{3,}(\.[a-zA-Z0-9]+)*@gmail\.com$/;
     const isValid = emailPattern.test(email);
     setEmailError(!isValid);
     setEmailTooltipOpen(!isValid);
-
-    console.log("Form submitted");
-    setSnackbarOpen(false);
+  
+    if (!isValid) {
+      return;
+    }
+  
+    if (!password) {
+      setTooltipOpen(true); // Show password tooltip
+      return; // Stop submission if password is missing
+    }
+    
+    if (!role) {
+      setSnackbarMessage("Please select a role.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+      return; // Stop submission if role is not selected
+    }
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://careerguidance.runasp.net/api/Dashboard/AddUser",
         {
-          method: "POST",
+          userName: username,
+          email: email,
+          password: password,
+          role: role,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userName: username,
-            email: email,
-            password: password,
-            role: role,
-          }),
         }
       );
-
-      if (response.ok) {
-        // Successful response, show success snackbar
+  
+      if (response.status === 200) {
+        // Show success snackbar
         setSnackbarMessage("User added successfully!");
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
-
+  
         // Reset input fields
         setUsername("");
         setEmail("");
         setPassword("");
         setRole("");
-      } else {
-        // Attempt to retrieve a detailed error message from backend
-        let errorMessage = "Failed to add user."; // Default error message
-        try {
-          const errorData = await response.json();
-
-          if (errorData.errors) {
-            // Check for specific validation errors
-            if (errorData.errors.UserName) {
-              errorMessage = errorData.errors.UserName[0];
-            } else if (errorData.errors.Password) {
-              errorMessage = errorData.errors.Password[0];
-            } else if (errorData.errors.length > 0) {
-              errorMessage = errorData.errors[1]; // Fallback to the second error message
-            } else {
-              errorMessage = errorData.title || errorMessage;
-            }
-          } else if (errorData.title) {
-            errorMessage = errorData.title;
-          }
-        } catch (jsonError) {
-          // If JSON parsing fails, fall back to text parsing
-          const errorText = await response.text();
-          errorMessage = errorText || errorMessage;
-        }
-
-        setSnackbarMessage("error");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
       }
+      setTimeout(() => {
+        setSnackbarOpen(false);
+      }, 3000);
     } catch (error) {
-      // Handle fetch or network errors
-      console.error("Error:", error);
-      setSnackbarMessage("An error occurred: " + error.message);
+      // Handle errors
+      console.log("Error during API call: ", error);
+      if (
+        (error.response && error.response.status === 400) ||
+        (error.response && error.response.status === 409) ||
+        (error.response && error.response.status === 401) 
+      ) {
+        const errorMessage = error.response.data.errors[1];
+        setSnackbarMessage(errorMessage);
+      } else {
+        setSnackbarMessage("An unexpected error occurred.");
+      }
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
-  };
-
-  const handleClick = () => {
-    // Your logic to add the user
-    setOpenSnackbar(true); // Show the snackbar on button click
   };
 
   const handleCloseSnackbar = (event, reason) => {
@@ -255,7 +248,7 @@ const AddNewUser = () => {
         </Typography>
       </Box>
 
-      <form onSubmit={handleSubmit}>
+      <form >
         <Grid container spacing={2}>
           {/* Username field */}
           <Grid item xs={12}>
@@ -634,7 +627,7 @@ const AddNewUser = () => {
               <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
+                onClose={() => setSnackbarOpen(false)} // Handle Snackbar close
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
               >
                 <Alert

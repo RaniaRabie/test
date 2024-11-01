@@ -156,8 +156,8 @@ const SideBar = ({ children }) => {
 
   return (
     <>
-      <div className="container">
-        <div className="main-container">
+      <div >
+        <div>
           <motion.div
             animate={{
               width: isOpen ? "200px" : "45px",
@@ -269,18 +269,23 @@ export default SideBar;
 // import ListItemText from "@mui/material/ListItemText";
 // import { Avatar, styled, Typography, useTheme } from "@mui/material";
 // import MuiDrawer from "@mui/material/Drawer";
-// import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-// import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-// import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
-// import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-// import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-// import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-// import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-// import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-// import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
+
 // import { useLocation, useNavigate } from "react-router-dom";
 // import { grey } from "@mui/material/colors";
+
+
+// import BarChartIcon from "@mui/icons-material/BarChart";
+// import PieChartIcon from "@mui/icons-material/PieChart";
+// import ShowChartIcon from "@mui/icons-material/ShowChart";
+// import GroupIcon from "@mui/icons-material/Group";
+// import PersonAddIcon from "@mui/icons-material/PersonAdd";
+// import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+// import AddRoadIcon from "@mui/icons-material/AddRoad";
+// import EditRoadIcon from "@mui/icons-material/EditRoad";
+// import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+// import { FaBars, FaHome } from "react-icons/fa";
+// import { BiAnalyse, BiCog } from "react-icons/bi";
+
 
 // const drawerWidth = 240;
 
@@ -334,33 +339,105 @@ export default SideBar;
 //   ...theme.mixins.toolbar,
 // }));
 
-// const Array1 = [
-//   { text: "dashboard", icon: <HomeOutlinedIcon />, path: "/" },
-//   { text: "Manage Team", icon: <GroupOutlinedIcon />, path: "/team" },
+// const routes = [
 //   {
-//     text: "Contacts information",
-//     icon: <ContactsOutlinedIcon />,
-//     path: "/contacts",
+//     path: "/dashboard",
+//     name: "Home",
+//     icon: <FaHome />,
 //   },
-// ];
 
-// const Array2 = [
-//   { text: "Profile Form", icon: <Person2OutlinedIcon />, path: "/form" },
-//   { text: "Calendar", icon: <CalendarTodayOutlinedIcon />, path: "/calendar" },
-//   { text: "FAQ Page", icon: <HelpOutlineOutlinedIcon />, path: "/FAQ" },
-// ];
+//   {
+//     path: "/Analytics",
+//     name: "Analytics",
+//     icon: <BiAnalyse />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/barchart",
+//         name: "Bar Chart ",
+//         icon: <BarChartIcon />,
+//       },
+//       {
+//         path: "/dashboard/linechart",
+//         name: "Line Chart",
+//         icon: <ShowChartIcon />,
+//       },
+//       {
+//         path: "/dashboard/piechart",
+//         name: "Pie Chart",
+//         icon: <PieChartIcon />,
+//       },
+//     ],
+//   },
 
-// const Array3 = [
-//   { text: "Bar Chart", icon: <BarChartOutlinedIcon />, path: "/barchart" },
-//   { text: "Pie Chart", icon: <PieChartOutlineOutlinedIcon />, path: "/piechart" },
-//   { text: "Line Chart", icon: <TimelineOutlinedIcon />, path: "/linechart" },
-//   { text: "Geography Chart", icon: <MapOutlinedIcon />, path: "/geography" },
+//   {
+//     path: "/Users",
+//     name: "Users",
+//     icon: <GroupIcon />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/allusers",
+//         name: "All Users ",
+//         icon: <PersonSearchIcon />,
+//       },
+//       {
+//         path: "/dashboard/addnewuser",
+//         name: "Add New User",
+//         icon: <PersonAddIcon />,
+//       },
+//     ],
+//   },
+
+  
+
+//   {
+//     path: "/dashboard/roadmap",
+//     name: "Roadmap",
+//     icon: <AddRoadIcon />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/allroadmaps",
+//         name: "All Roadmaps",
+//         icon: <EditRoadIcon />,
+//       },
+//     ],
+//   },
+
+//   {
+//     path: "/dashboard/faq",
+//     name: "FAQ",
+//     icon: <LiveHelpIcon />,
+//     exact: true,
+//   },
+
+//   {
+//     path: "/dashboard/setting",
+//     name: "Settings",
+//     icon: <BiCog />,
+//     exact: true,
+//   },
 // ];
 
 // const SideBar = ({ open, handleDrawerClose }) => {
 //   let location = useLocation();
 //   const navigate = useNavigate();
 
+//   const showAnimation = {
+//     hidden: {
+//       width: 0,
+//       opacity: 0,
+//       transition: {
+//         duration: 0.5,
+//       },
+//     },
+//     show: {
+//       opacity: 1,
+//       width: "auto",
+//       transition: {
+//         duration: 0.5,
+//       },
+//     },
+//   };
+  
 //   const theme = useTheme();
 //   return (
 //     <Drawer variant="permanent" open={open}>
@@ -375,35 +452,9 @@ export default SideBar;
 //       </DrawerHeader>
 //       <Divider />
 
-//       <Avatar
-//         sx={{
-//           mx: "auto",
-//           width: open ? 80 : 50,
-//           height: open ? 80 : 50,
-//           border: "2px, solid, gray",
-//           my: 1,
-//           transition: ".25s",
-//         }}
-//         alt="Rania Rabie"
-//         src=""
-//       />
-//       <Typography
-//         align="center"
-//         sx={{ fontSize: open ? 16 : 0, transition: ".25s" }}
-//       >
-//         Rania Rabie
-//       </Typography>
-//       <Typography
-//         align="center"
-//         sx={{ fontSize: open ? 16 : 0, transition: ".25s" }}
-//       >
-//         admin
-//       </Typography>
-
-//       <Divider />
 
 //       <List>
-//         {Array1.map((item) => (
+//         {routes.map((item) => (
 //           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
 //             <ListItemButton
 //               onClick={() => {
@@ -440,86 +491,8 @@ export default SideBar;
 //           </ListItem>
 //         ))}
 //       </List>
-//       <Divider />
 
-//       <List>
-//         {Array2.map((item) => (
-//           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
-//             <ListItemButton
-//               onClick={() => {
-//                 navigate(item.path);
-//               }}
-//               sx={{
-//                 minHeight: 48,
-//                 justifyContent: open ? "initial" : "center",
-//                 px: 2.5,
-//                 // عايزة اقوله لما المسار بتاعك يساوي المسار اللي فوق غيرلي الخلفية
-//                 // location.pathname => / بيجيبلي اللي بعد
-//                 bgcolor:
-//                   location.pathname === item.path
-//                     ? theme.palette.mode === "dark"
-//                       ?  grey[800]
-//                       : grey[300]
-//                     : null,
-//               }}
-//             >
-//               <ListItemIcon
-//                 sx={{
-//                   minWidth: 0,
-//                   mr: open ? 3 : "auto",
-//                   justifyContent: "center",
-//                 }}
-//               >
-//                 {item.icon}
-//               </ListItemIcon>
-//               <ListItemText
-//                 primary={item.text}
-//                 sx={{ opacity: open ? 1 : 0 }}
-//               />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
-//       <Divider />
 
-//       <List>
-//         {Array3.map((item) => (
-//           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
-//             <ListItemButton
-//               onClick={() => {
-//                 navigate(item.path);
-//               }}
-//               sx={{
-//                 minHeight: 48,
-//                 justifyContent: open ? "initial" : "center",
-//                 px: 2.5,
-//                 // عايزة اقوله لما المسار بتاعك يساوي المسار اللي فوق غيرلي الخلفية
-//                 // location.pathname => / بيجيبلي اللي بعد
-//                 bgcolor:
-//                   location.pathname === item.path
-//                     ? theme.palette.mode === "dark"
-//                       ?  grey[800]
-//                       : grey[300]
-//                     : null,
-//               }}
-//             >
-//               <ListItemIcon
-//                 sx={{
-//                   minWidth: 0,
-//                   mr: open ? 3 : "auto",
-//                   justifyContent: "center",
-//                 }}
-//               >
-//                 {item.icon}
-//               </ListItemIcon>
-//               <ListItemText
-//                 primary={item.text}
-//                 sx={{ opacity: open ? 1 : 0 }}
-//               />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
 //     </Drawer>
 //   );
 // };

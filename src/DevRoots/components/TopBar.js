@@ -45,6 +45,7 @@ const drawerWidth = 200;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
+// @ts-ignore
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
@@ -221,6 +222,7 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
   return (
     <AppBar
       position="absolute"
+      // @ts-ignore
       open={open}
       sx={{ zIndex: 0, backgroundColor: "#1d242f", width: "100%", left: 0 }}
     >
@@ -343,3 +345,12 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
 };
 
 export default TopBar;
+
+
+
+
+
+
+
+
+

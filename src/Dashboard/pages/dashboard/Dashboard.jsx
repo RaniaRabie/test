@@ -135,20 +135,7 @@ const userDistributionData = [
 
 const Dashboard =  ({ newUsersCount }) => (
   <>
-    <Grid item xs={12} className="infoCardsText">
-      <Typography
-        className="dashboard-title"
-        sx={{
-          fontSize: 40,
-          fontWeight: "bold",
-          color: "#293241",
-          textAlign: "center",
-          mb:3
-        }}
-      >
-        Dashboard Home
-      </Typography>
-    </Grid>
+    
     <GridContainerStyle container spacing={3}> {/* Changed from spacing={2} to spacing={1} */}
   {/* Info Cards with Icons */}
   <Grid item xs={12} sm={6} md={4} lg={3}>

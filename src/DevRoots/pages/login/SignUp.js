@@ -94,7 +94,7 @@ const SignUp = () => {
     setEmail(newEmail);
 
     // Validate email and set error state
-    const emailPattern = /^[a-zA-Z0-9]{3,}(\.[a-zA-Z0-9]+)*@gmail\.com$/; // Simple email regex pattern
+    const emailPattern = /^[a-zA-Z0-9]{6,}(\.[a-zA-Z0-9]+)*@gmail\.com$/; // Simple email regex pattern
     const isValid = emailPattern.test(newEmail); // Check validity of new email
     setEmailError(!isValid);
 
@@ -188,6 +188,14 @@ const SignUp = () => {
     setEmailError(!isValid);
     setEmailTooltipOpen(!isValid);
 
+    if (!signUpPassword) {
+      setTooltipOpen(true); // Show password tooltip
+      return; // Stop submission if password is missing
+    }
+    if (!confirmPassword) {
+      setConfirmTooltipOpen(true); // Show password tooltip
+      return; // Stop submission if password is missing
+    }
     // Check if any of the fields are empty
     if (!username || !email || !signUpPassword || !confirmPassword) {
       return;
@@ -246,30 +254,17 @@ const SignUp = () => {
     } catch (error) {
       console.log("Error during API call: ", error);
 
-      let errorMsg;
-      if (error.response && error.response.data) {
-        if (error.response.status === 409) {
-          const serverMessage = error.response.data.message || "";
-          console.log("Server Message: ", serverMessage); // عرض رسالة الخادم للتحقق منها
-
-          // تحقق من نص الرسالة باستخدام جمل شرطية مباشرة
-          if (
-            serverMessage === "User.DublicatedEmail" ||
-            "Another user with the same email is already exists"
-          ) {
-            errorMsg = "Username or Email is already exists";
-          } else {
-            errorMsg = serverMessage || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-          }
-        } else {
-          errorMsg =
-            error.response.data.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-        }
+      if (
+        (error.response && error.response.status === 400) ||
+        (error.response && error.response.status === 409) ||
+        (error.response && error.response.status === 401)
+      ) {
+        const errorMessage = error.response.data.errors[1];
+        setErrorMessage(errorMessage);
       } else {
-        errorMsg = error.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
+        setErrorMessage("An unexpected error occurred.");
       }
 
-      setErrorMessage(errorMsg);
       setOpenSnackbar(true);
     }
     /////////////////////////////////////////////////////////////
@@ -297,7 +292,7 @@ const SignUp = () => {
         console.error("Error fetching data:", error);
 
         // Optionally handle token expiration and refresh
-        if (error.response && error.response.status === 401 || 400) {
+        if ((error.response && error.response.status === 401) || 400) {
           console.log("Token expired, refreshing...");
           await refreshAccessToken(); // Implement refresh logic
         }
@@ -358,7 +353,7 @@ const SignUp = () => {
       } else {
         navigate("/"); // Default navigation if role does not match
       }
-      
+
       // Store tokens in localStorage
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -367,30 +362,16 @@ const SignUp = () => {
     } catch (error) {
       console.log("Error during API call: ", error);
 
-      let errorMsg;
-      if (error.response && error.response.data) {
-        if (error.response.status === 401 || 400) {
-          const serverMessage = error.response.data.message || "";
-          console.log("Server Message: ", serverMessage); // عرض رسالة الخادم للتحقق منها
-
-          // تحقق من نص الرسالة باستخدام جمل شرطية مباشرة
-          if (
-            serverMessage === "The EmailOrUsername field is required" ||
-            "Email Or Username' must not be empty"
-          ) {
-            errorMsg = "Invalid Username or password ";
-          } else {
-            errorMsg = serverMessage || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-          }
-        } else {
-          errorMsg =
-            error.response.data.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
-        }
+      if (
+        (error.response && error.response.status === 400) ||
+        (error.response && error.response.status === 409) ||
+        (error.response && error.response.status === 401)
+      ) {
+        const errorMessage = error.response.data.errors[1];
+        setErrorMessage(errorMessage);
       } else {
-        errorMsg = error.message || "حدث خطأ غير متوقع. حاول مرة أخرى.";
+        setErrorMessage("An unexpected error occurred.");
       }
-
-      setErrorMessage(errorMsg);
       setOpenSnackbar(true);
     }
   };
@@ -417,7 +398,7 @@ const SignUp = () => {
       console.error("Error fetching data:", error);
 
       //  handle token expiration and refresh
-      if (error.response && error.response.status === 401 || 400) {
+      if ((error.response && error.response.status === 401) || 400) {
         console.log("Token expired, refreshing...");
         await refreshAccessToken(); // Implement refresh logic
       }
@@ -681,7 +662,7 @@ const SignUp = () => {
               />
 
               <Tooltip
-                title="Please enter a valid email in the format: xxx@gmail.com"
+                title="Please enter a valid email in the format: xxxxxx@gmail.com"
                 placement={isMobilee ? "bottom" : "left-start"} // Conditionally set the placement
                 open={emailTooltipOpen}
                 arrow
@@ -1215,6 +1196,8 @@ const SignUp = () => {
           open={openSnackbar}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+
         >
           <Alert
             onClose={handleCloseSnackbar}
@@ -1224,8 +1207,9 @@ const SignUp = () => {
             {errorMessage}
           </Alert>
         </Snackbar>
+
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={open}
           autoHideDuration={3000}
           onClose={handleClose}
