@@ -21,6 +21,7 @@ import {
   Toolbar,
   AppBar as MuiAppBar,
   styled,
+  useTheme,
 } from "@mui/material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -48,6 +49,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const TopBar = ({ open, toggleMode, mode }) => {
+  const theme = useTheme()
   return (
     <AppBar
       position="fixed"
@@ -55,7 +57,7 @@ const TopBar = ({ open, toggleMode, mode }) => {
       open={open}
       sx={{
         height: "45px",
-        backgroundColor: mode === "dark" ? "#000000" : "#1d242f",
+        backgroundColor: theme.palette.mode === "dark" ? "#1d242f" : "#1d242f",
       }}
     >
       <Toolbar sx={{ minHeight: { xs: 0, sm: 0 } }}>

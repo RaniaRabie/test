@@ -17,9 +17,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Import Link to navigate between pages
 import axios from "axios";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography, useTheme } from "@mui/material";
 // import Carousel from "./Carousel/Carousel";
-
 
 const RoadmapList = () => {
   const [roadmaps, setRoadmaps] = useState([]);
@@ -48,21 +47,21 @@ const RoadmapList = () => {
         console.error("Error fetching roadmaps:", error);
       });
   }, []);
-
+  const theme = useTheme();
   return (
     <div>
       <Box sx={{ width: "80%", m: "auto", mt: 3 }}>
         {/* <Carousel/> */}
-        <Box sx={{ width: "80%", mx: "auto", py: 4 }}>
+        <Box sx={{ width: {xs:"100%", lg:"80%"}, mx: "auto", py: 4 }}>
           <h2 style={{ textAlign: "center" }}>HI!</h2>
           <Typography
             variant="body1"
-            color="initial"
             sx={{
               textAlignLast: "left",
               fontSize: "18px",
               mt: 1,
               textTransform: "lowercase",
+              color: theme.palette.text.primary,
             }}
           >
             Our website offers comprehensive educational resources covering all
@@ -79,6 +78,7 @@ const RoadmapList = () => {
               border: "1px solid #EE6C4D",
               borderRadius: "7px",
               padding: "2px",
+              color: theme.palette.text.primary,
             }}
           >
             All Roadmaps
@@ -112,7 +112,7 @@ const RoadmapList = () => {
                   (roadmap) => roadmap.roadmapData.roadmapCategory === category
                 )
                 .map((roadmap) => (
-                  <Box key={roadmap.id} className="all-roadmaps" sx={{ my: 2 }}>
+                  <Box key={roadmap.id} className="all-roadmaps" sx={{ my: 2, backgroundColor: theme.palette.mode === "dark" ? "#262626" : "#f4f6f8", }}>
                     <Link to={`/roadmap/${roadmap.id}`} className="roadmap">
                       <img
                         src={roadmap.roadmapData.imageUrl}
@@ -120,7 +120,10 @@ const RoadmapList = () => {
                         className="roadmapImg"
                         width={"100%"}
                       />
-                      <Typography component={"div"} sx={{ py: 1 }}>
+                      <Typography
+                        component={"div"}
+                        sx={{ py: 1, color: theme.palette.text.primary }}
+                      >
                         {roadmap.roadmapData.roadmapName}
                       </Typography>
                     </Link>

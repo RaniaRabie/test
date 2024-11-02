@@ -4,6 +4,7 @@ import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import SideBar from "./components/SideBar";
 import { useMemo, useState } from "react";
 import { darkTheme, lightTheme } from "theme";
+
 export default function DashboardOutlet() {
   const [open, setOpen] = useState(false);
 
@@ -17,8 +18,9 @@ export default function DashboardOutlet() {
     return savedMode ? savedMode : "light";
   });
 
-  // Save the mode to local storage whenever it changes
-  const handleToggleMode = (newMode) => {
+  // Toggle the mode and save it to local storage
+  const handleToggleMode = () => {
+    const newMode = mode === "light" ? "dark" : "light";
     setMode(newMode);
     localStorage.setItem("currentMode", newMode);
   };
@@ -33,16 +35,17 @@ export default function DashboardOutlet() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        <TopBar open={open} mode={setMode} toggleMode={handleToggleMode} />
+        {/* Pass the correct mode and toggleMode function to TopBar */}
+        <TopBar open={open} mode={mode} toggleMode={handleToggleMode} />
 
         <SideBar open={open} handleDrawerClose={handleDrawerClose} />
 
         <Box
           component="main"
           sx={{
-            flexGrow: { xs: 0, lg: 1 }, mt:{lg: "45px"}, ml:{xs:"45px",lg:"0px" },
-            
-            
+            flexGrow: { xs: 0, lg: 1 },
+            mt: { lg: "45px" },
+            ml: { xs: "45px", lg: "0px" },
           }}
         >
           <Outlet />

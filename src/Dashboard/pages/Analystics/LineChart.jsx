@@ -13,7 +13,7 @@
 - Last Modified Date: 17/10/2024
 - Description : LineChart
 */
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
 const data = [
@@ -87,12 +87,20 @@ export default function Line() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ height: "75vh", mx: "auto", }}>
-      
+    <Box sx={{ height: "75vh", mx: "auto" }}>
+      <Typography
+        sx={{
+          fontSize: "20px",
+          textAlign: "center",
+          color: theme.palette.text.primary,
+        }}
+      >
+        Line Chart
+      </Typography>
+
       <ResponsiveLine
         data={data}
-        colors={["#3d5a80", "#ee6c4d", "#98c1d9" ,"#293241",]} 
-
+        colors={["#3d5a80", "#ee6c4d", "#98c1d9", "#293241"]}
         theme={{
           text: {
             fontSize: 11,

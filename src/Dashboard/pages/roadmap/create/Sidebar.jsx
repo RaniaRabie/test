@@ -16,7 +16,7 @@ import React from "react";
 import { useDnD } from "./DnDContext";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 export default function Sidebar() {
   const [_, setType] = useDnD();
@@ -31,7 +31,7 @@ export default function Sidebar() {
   const preventDrag = (event) => {
     event.preventDefault(); // Prevent text drag
   };
-
+  const theme = useTheme()
   return (
     <aside>
       <div className="description" onDragStart={preventDrag}>

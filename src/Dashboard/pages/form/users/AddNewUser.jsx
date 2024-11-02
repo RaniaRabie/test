@@ -28,6 +28,7 @@ import {
   ListItem,
   Snackbar,
   Alert,
+  useTheme,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
@@ -223,7 +224,7 @@ const AddNewUser = () => {
     if (reason === "clickaway") return;
     setOpenSnackbar(false);
   };
-
+const theme = useTheme()
   return (
     <Box
       sx={{
@@ -232,16 +233,16 @@ const AddNewUser = () => {
         p: { xs: 2, sm: 4 }, // Adjust padding based on screen size
         borderRadius: 2,
         boxShadow: 2,
-        backgroundColor: "#fff",
-      }}
+        backgroundColor :theme.palette.background.paper}}
     >
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 ,}}>
         <Typography
           sx={{
+            color: theme.palette.text.primary,
             fontSize: { xs: 24, md: 36 }, // Adjust font size for different screens
             fontWeight: "bold",
-            color: "#293241",
             m: "auto",
+
           }}
         >
           Add New User
@@ -593,8 +594,7 @@ const AddNewUser = () => {
                     borderRadius: "15px",
                     boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
                     "& .MuiMenuItem-root": {
-                      color: "#293241",
-                    },
+                      color: theme.palette.text.primary,                    },
                   },
                 },
               }}

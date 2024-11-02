@@ -25,12 +25,11 @@ import Checkbox from "@mui/material/Checkbox";
 import "react-flow-renderer/dist/style.css";
 import { useParams } from "react-router-dom"; // Hook to get URL parameters
 import "./Roadmap.css";
-import { Box, Divider, Typography, IconButton } from "@mui/material";
+import { Box, Divider, Typography, IconButton, useTheme } from "@mui/material";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import ArticleIcon from "@mui/icons-material/Article";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import CloseIcon from '@mui/icons-material/Close';
-
+import CloseIcon from "@mui/icons-material/Close";
 
 const Roadmap = () => {
   const { id } = useParams();
@@ -85,7 +84,7 @@ const Roadmap = () => {
   const progress = roadmap?.roadmapData?.nodes?.length
     ? (completedNodes.length / roadmap.roadmapData.nodes.length) * 100
     : 0;
-
+  const theme = useTheme();
   return roadmap ? (
     <div style={{ width: "80%", margin: "auto" }}>
       <Box
@@ -94,7 +93,7 @@ const Roadmap = () => {
           margin: "auto",
           minHeight: "auto",
           p: 2,
-          backgroundColor: "#f0f0f0",
+          backgroundColor: theme.palette.background.paper,
           borderRadius: "10px",
           boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.1)", // Adds a subtle shadow
         }}
@@ -141,7 +140,6 @@ const Roadmap = () => {
                     <Checkbox
                       size="small"
                       sx={{
-                        
                         position: "absolute",
                         top: "-18px",
                         right: "-18px",
@@ -154,10 +152,9 @@ const Roadmap = () => {
                         "&.MuiCheckbox-root": {
                           width: "16px", // Custom width
                           height: "16px", // Custom height
-                          borderRadius:"2px",
-                          outline:"none"
-
-                        }
+                          borderRadius: "2px",
+                          outline: "none",
+                        },
                       }}
                       checked={completedNodes.includes(node.id)} // Check if the node is completed
                       onClick={(event) => event.stopPropagation()} // Prevent the drawer from opening
@@ -192,9 +189,9 @@ const Roadmap = () => {
       >
         <div style={{ width: "400px", padding: "22px" }}>
           <IconButton aria-label="" onClick={handleDrawerClose}>
-            <CloseIcon/>
+            <CloseIcon />
           </IconButton>
-          
+
           {selectedNodeData ? (
             <div>
               <h3 style={{ textAlign: "center", textDecoration: "underline" }}>

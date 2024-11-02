@@ -26,6 +26,7 @@ import {
   useMediaQuery,
   Dialog,
   DialogContent,
+  useTheme,
 } from "@mui/material";
 import { useLocation } from "react-router-dom"; // useLocation بدلاً من useParams
 import EnhancedEncryptionIcon from "@mui/icons-material/EnhancedEncryption";
@@ -133,6 +134,7 @@ const SetNewPassword = () => {
     }
   };
   const isMobilee = useMediaQuery("(max-width:600px)");
+  const theme = useTheme()
   return (
     <Box
       sx={{
@@ -143,11 +145,12 @@ const SetNewPassword = () => {
         height: "80vh", // Full viewport height to center vertically
         padding: "20px",
         width: "100%",
+
       }}
     >
       <Typography
         variant="h5"
-        sx={{ margin: "8px 10px", color: "#293241", fontWeight: "bold" }}
+        sx={{ margin: "8px 10px", color:theme.palette.text.primary, fontWeight: "bold" }}
       >
         Set New Password
       </Typography>

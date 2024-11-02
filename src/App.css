@@ -42,7 +42,7 @@
   
   /* Sidebar */
   .sidebar {
-    background: #1d242f;
+    /* background: #1d242f; */
     color: white;
     overflow: hidden; /* To hide overflow */
     position: fixed; /* Make the sidebar fixed */

@@ -51,7 +51,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useForm } from "react-hook-form";
-import { CleaningServices } from "@mui/icons-material";
 
 const Login = () => {
   const [isActive, setIsActive] = useState(false);
@@ -207,6 +206,8 @@ const Login = () => {
     return request;
   });
   const navigate = useNavigate();
+
+
   const onSubmit = async (data) => {
     const SignUpData = {
       ...data,
@@ -219,14 +220,18 @@ const Login = () => {
 
         SignUpData
       );
-      const token = response.data.accessToken; // Adjust this if the key differs
-      const refreshToken = response.data.refreshToken; // Adjust this if the key differs
+      const { role, accessToken, token, refreshToken, ...otherData } = response.data;
+
       localStorage.setItem("authToken", token);
       localStorage.setItem("refreshToken", refreshToken);
 
       console.log("Sign-up successful:", response.data);
       handleClick(); // Show success Snackbar
       navigate("/"); // Redirect to home page after successful signup
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      window.location.reload();
+
+
     } catch (error) {
       console.log("Error during API call: ", error);
 
@@ -295,30 +300,35 @@ const Login = () => {
       }
     };
   };
+
+
   // Function to handle closing the Snackbar
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
     setErrorMessage(""); // Clear the error message after closing
   };
+
   // login api with token and refresh token
   const { register, handleSubmit } = useForm(); // Assuming you're using react-hook-form
+
 
   const onSubmit2 = async (data) => {
     const LoginData = {
       EmailOrUsername: data.signInEmail,
       password: data.password,
     };
-
+  
     console.log("LoginData being sent:", LoginData);
-
+  
     try {
       const response = await axios.post(
         "https://careerguidance.runasp.net/Auth/Login",
         LoginData,
         { headers: { "Content-Type": "application/json" } }
       );
-
-      const role = response.data.role;
+  
+      const { role, accessToken, refreshToken, ...otherData } = response.data;
+  
       // Navigate based on role
       if (role === "admin") {
         navigate("/dashboard"); // Navigate to admin dashboard
@@ -327,15 +337,19 @@ const Login = () => {
       } else {
         navigate("/"); // Default navigation if role does not match
       }
-
-      // Store tokens in localStorage
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-
+  
+      // Store user data and tokens in localStorage
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+  
       console.log("Login successful:", response.data);
-    } catch (error) {
-      console.log("Error during API call: ", error);
+      window.location.reload();
 
+    } catch (error) {
+      console.log("Error during API call:", error);
+  
+      // Handle specific error codes for better feedback
       if (
         (error.response && error.response.status === 400) ||
         (error.response && error.response.status === 409) ||
@@ -346,10 +360,13 @@ const Login = () => {
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
-
+  
       setOpenSnackbar(true);
     }
   };
+  
+
+  
 
   const getToken = () => {
     return localStorage.getItem("accessToken");
@@ -379,6 +396,7 @@ const Login = () => {
       }
     }
   };
+
   const refreshAccessToken = async () => {
     const refreshToken = getRefreshToken();
 
@@ -418,6 +436,7 @@ const Login = () => {
     setOpen(false);
   };
 
+  
   const handleRegisterClick = () => {
     setIsActive(true);
   };
@@ -443,6 +462,10 @@ const Login = () => {
       console.log("API Response:", apiResponse.data);
       // Handle the API response as needed (e.g., store tokens, navigate, etc.)
       googleNavigate("/");
+      const { role, accessToken, refreshToken, ...otherData } = apiResponse.data;
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      window.location.reload();
+
     } catch (error) {
       console.error("API Call Failed:", error);
     }
@@ -472,7 +495,7 @@ const Login = () => {
         style={{ marginTop: "0px" }}
       >
         <div className="form-container sign-in sign-in-form">
-          <form onSubmit={handleSubmit(onSubmit2)}>
+          <form onSubmit={handleSubmit(onSubmit2)} className="loginForm">
             <h1 style={{ color: "#293241" }}>Sign In</h1>
 
             {/* Username or email field */}
@@ -677,7 +700,7 @@ const Login = () => {
             </button>
           </form>
         </div>
-        <div className="toggle-container">
+        <div className="toggle-container" >
           <div className="toggle">
             <div className="toggle-panel toggle-left">
               <h1>Hello, Friend!</h1>
@@ -706,6 +729,7 @@ const Login = () => {
                 id="register"
                 onClick={handleRegisterClick}
                 style={{ textTransform: "capitalize" }}
+                
               >
                 Sign Up
               </button>

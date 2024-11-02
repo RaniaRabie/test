@@ -242,15 +242,18 @@ const SignUp = () => {
 
         SignUpData
       );
-      const token = response.data.accessToken; // Adjust this if the key differs
-      const refreshToken = response.data.refreshToken; // Adjust this if the key differs
-      localStorage.setItem("authToken", token);
+      const { role, accessToken, token, refreshToken, ...otherData } = response.data;
 
+      localStorage.setItem("authToken", token);
       localStorage.setItem("refreshToken", refreshToken);
 
       console.log("Sign-up successful:", response.data);
-      handleClick();
-      navigate("/");
+      handleClick(); // Show success Snackbar
+      navigate("/"); // Redirect to home page after successful signup
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      window.location.reload();
+
+
     } catch (error) {
       console.log("Error during API call: ", error);
 
@@ -264,10 +267,8 @@ const SignUp = () => {
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
-
       setOpenSnackbar(true);
     }
-    /////////////////////////////////////////////////////////////
 
     const getToken = () => {
       return localStorage.getItem("authToken"); // Match the storage key used in SignUp
@@ -292,7 +293,7 @@ const SignUp = () => {
         console.error("Error fetching data:", error);
 
         // Optionally handle token expiration and refresh
-        if ((error.response && error.response.status === 401) || 400) {
+        if (error.response && error.response.status === 401) {
           console.log("Token expired, refreshing...");
           await refreshAccessToken(); // Implement refresh logic
         }
@@ -321,6 +322,8 @@ const SignUp = () => {
       }
     };
   };
+
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
     setErrorMessage(""); // Clear the error message after closing
@@ -335,16 +338,18 @@ const SignUp = () => {
       EmailOrUsername: data.signInEmail,
       password: data.password,
     };
-
+  
     console.log("LoginData being sent:", LoginData);
-
+  
     try {
       const response = await axios.post(
         "https://careerguidance.runasp.net/Auth/Login",
         LoginData,
         { headers: { "Content-Type": "application/json" } }
       );
-      const role = response.data.role;
+  
+      const { role, accessToken, refreshToken, ...otherData } = response.data;
+  
       // Navigate based on role
       if (role === "admin") {
         navigate("/dashboard"); // Navigate to admin dashboard
@@ -353,15 +358,19 @@ const SignUp = () => {
       } else {
         navigate("/"); // Default navigation if role does not match
       }
-
-      // Store tokens in localStorage
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-
+  
+      // Store user data and tokens in localStorage
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+  
       console.log("Login successful:", response.data);
-    } catch (error) {
-      console.log("Error during API call: ", error);
+      window.location.reload();
 
+    } catch (error) {
+      console.log("Error during API call:", error);
+  
+      // Handle specific error codes for better feedback
       if (
         (error.response && error.response.status === 400) ||
         (error.response && error.response.status === 409) ||
@@ -372,6 +381,7 @@ const SignUp = () => {
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
+  
       setOpenSnackbar(true);
     }
   };
@@ -468,6 +478,10 @@ const SignUp = () => {
       console.log("API Response:", apiResponse.data);
       // Handle the API response as needed (e.g., store tokens, navigate, etc.)
       googleNavigate("/");
+      const { role, accessToken, refreshToken, ...otherData } = apiResponse.data;
+      localStorage.setItem("user", JSON.stringify({ role, ...otherData }));
+      window.location.reload();
+      
     } catch (error) {
       console.error("API Call Failed:", error);
     }

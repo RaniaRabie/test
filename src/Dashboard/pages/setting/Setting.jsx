@@ -55,8 +55,8 @@ const EditProfile = () => {
         flexDirection: "column",
         alignItems: "center",
         padding: 4,
-        backgroundColor: theme.palette.mode === "dark" ? "#333" : "#f4f6f8", // لون خلفية مخصص للوضع الداكن فقط
-        color: theme.palette.mode === "dark" ? "#ffffff" : "#000000", // لون النص بناءً على الوضع
+        backgroundColor: theme.palette.mode === "dark" ? "#262626" : "#f4f6f8",        
+        color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
         borderRadius: 2,
         boxShadow: 3,
         width: "100%",

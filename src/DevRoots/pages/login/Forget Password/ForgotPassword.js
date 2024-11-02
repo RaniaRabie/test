@@ -25,6 +25,7 @@ import {
   Dialog,
   DialogContent,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import EmailIcon from "@mui/icons-material/Email";
@@ -102,10 +103,11 @@ const ForgotPassword = () => {
     }
   };
   const isMobile = useMediaQuery("(max-width:600px)");
-
+  const theme = useTheme();
   return (
     <Box
       sx={{
+        backgroundColor: theme.palette.background,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -117,7 +119,11 @@ const ForgotPassword = () => {
     >
       <Typography
         variant="h5"
-        sx={{ margin: "5px 0", color: "#293241", fontWeight: "bold" }}
+        sx={{
+          margin: "5px 0",
+          color: theme.palette.text.primary,
+          fontWeight: "bold",
+        }}
       >
         Reset Password
       </Typography>
@@ -277,7 +283,10 @@ const ForgotPassword = () => {
         variant="body2"
         sx={{ marginTop: "10px", color: "#293241", fontWeight: "bold" }}
       >
-        <Link to="/login" style={{ textDecoration: "none", color: "#293241" }}>
+        <Link
+          to="/login"
+          style={{ textDecoration: "none", color: theme.palette.text.primary }}
+        >
           Back to Sign in
         </Link>
       </Typography>
@@ -295,13 +304,13 @@ const ForgotPassword = () => {
           <Typography
             variant="body1"
             sx={{
-              color: "#293241",
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               boxShadow: "0 0 10px rgba(34, 31, 31, 0.3)",
-              backgroundColor: "#f7f7f7",
               borderRadius: "12px",
               padding: "20px",
               width: "320px",

@@ -28,8 +28,8 @@ export default function Bar() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ height: "70vh", }}>
-      <Typography>BarChart</Typography>
+    <Box sx={{ height: "70vh"}}>
+      <Typography  sx={{ fontSize:"20px", textAlign:'center', color : theme.palette.text.primary}}>BarChart</Typography>
       <ResponsiveBar
         data={data}
         keys={["Spain", "France", "Germany", "Egypt"]}

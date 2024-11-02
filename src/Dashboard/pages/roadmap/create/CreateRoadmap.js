@@ -49,7 +49,6 @@ import {
   IconButton,
   Tab,
   Tabs,
-  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -496,9 +495,9 @@ const DnDFlow = () => {
 
   return (
     <div style={{ width: "100%", height: "90vh" }} className="dndflow">
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+      <Drawer  anchor="right" open={open} onClose={toggleDrawer(false)}>
         <Box
-          sx={{ width: 250, ml: 2 }}
+          sx={{ width: 250, ml: 2 , mt:"45px"}}
           role="presentation"
           onClick={(event) => event.stopPropagation()} // Prevent closing when clicking inside the drawer
         >

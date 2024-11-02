@@ -36,8 +36,10 @@ import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import EditRoadIcon from "@mui/icons-material/EditRoad";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
-
 import "./sideBar.css";
+import { useTheme } from "@mui/material";
+
+
 
 const routes = [
   {
@@ -120,6 +122,8 @@ const routes = [
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const theme = useTheme()
+
   const inputAnimation = {
     hidden: {
       width: 0,
@@ -164,6 +168,7 @@ const SideBar = ({ children }) => {
               transition: { duration: 0.5, type: "spring", damping: 10 },
             }}
             className={`sidebar`}
+            style={{ backgroundColor: theme.palette.mode === "dark" ? "#1d242f" : "#1d242f",}}
           >
             <div className="top_section">
               <AnimatePresence>
